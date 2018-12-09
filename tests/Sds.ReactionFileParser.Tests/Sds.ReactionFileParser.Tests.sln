@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sds.ReactionFileParser.Domain", "Sds.ReactionFileParser.Domain\Sds.ReactionFileParser.Domain.csproj", "{773B52CE-927B-4BFE-9F44-4294F9F22D8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sds.ReactionFileParser.Tests", "Sds.ReactionFileParser.Tests\Sds.ReactionFileParser.Tests.csproj", "{0089CDF7-7EFF-4296-80D4-D3C85303F6D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{773B52CE-927B-4BFE-9F44-4294F9F22D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{773B52CE-927B-4BFE-9F44-4294F9F22D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773B52CE-927B-4BFE-9F44-4294F9F22D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{773B52CE-927B-4BFE-9F44-4294F9F22D8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0089CDF7-7EFF-4296-80D4-D3C85303F6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0089CDF7-7EFF-4296-80D4-D3C85303F6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0089CDF7-7EFF-4296-80D4-D3C85303F6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0089CDF7-7EFF-4296-80D4-D3C85303F6D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A37EEA3-1616-4409-A524-9779A50A4D03}
+	EndGlobalSection
+EndGlobal

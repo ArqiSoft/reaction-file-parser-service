@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<property name="logPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS XXX} [%level] [v@project.version@.@build.number@] %msg%n"/>
+<property name="logEncoding" value="UTF-8"/>
+<property name="logFileNamePattern" value="${OSDR_LOG_FOLDER}/@project.artifactId@-%d{yyyyMMdd}_%i.log"/>
+
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+        <Pattern>${logPattern}</Pattern>
+    </layout>
+</appender>
+
+<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logFileNamePattern}</fileNamePattern>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>30MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+        <charset>${logEncoding}</charset>
+        <pattern>${logPattern}</pattern>
+    </encoder>
+</appender>
+
+<logger name="org.springframework" level="info" additivity="false">
+    <appender-ref ref="fileAppender"/>
+    <appender-ref ref="STDOUT"/>
+</logger>
+<logger name="com.sds" level="debug" additivity="false">
+    <appender-ref ref="fileAppender"/>
+    <appender-ref ref="STDOUT"/>
+</logger>
+<logger name="sds" level="debug" additivity="false">
+    <appender-ref ref="fileAppender"/>
+    <appender-ref ref="STDOUT"/>
+</logger>
+<root level="INFO">
+    <appender-ref ref="fileAppender"/>
+    <appender-ref ref="STDOUT"/>
+</root>
+</configuration>

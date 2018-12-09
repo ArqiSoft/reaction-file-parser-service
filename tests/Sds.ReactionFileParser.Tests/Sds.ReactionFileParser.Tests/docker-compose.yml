@@ -1,0 +1,59 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: docker.your-company.com/osdr-rabbitmq:3.6
+    hostname: "rabbitmq-test"
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=osdr_test
+    # ports:
+    #   - "8282:5672"
+    #   - "5672:5672"
+    networks:
+      - reaction-parser-test
+
+  mongo:
+    image: mongo:3.6
+    # ports:
+    #   - "27017:27017"
+    networks:
+      - reaction-parser-test
+
+  reaction-parser-service:
+    restart: always
+    container_name: reaction-file-parser
+    image: docker.your-company.com/sds/reaction-file-parser:ci-${BUILD_NUMBER}
+    entrypoint: /bin/bash
+    environment:
+      - TZ=EST
+      - OSDR_LOG_FOLDER=/logs
+      - OSDR_TEMP_FILES_FOLDER=/temp
+      - OSDR_RABBIT_MQ=rabbitmq://guest:guest@rabbitmq:5672/osdr_test
+      - OSDR_MONGO_DB=mongodb://mongo:27017/osdr_dev
+      - QUEUE_PREFETCH_SIZE=9
+      - EXECUTOR_THREAD_COUNT=3
+    command: ./wait-for-it.sh rabbitmq:5672 -t 30 -- ./wait-for-it.sh mongo:27017 -t 30 -- java -jar reaction-parser.jar
+    volumes:
+      - ${OSDR_LOG_FOLDER}:/logs
+      - ${OSDR_TEMP_FILES_FOLDER}:/temp
+    networks:
+      - reaction-parser-test
+
+  tests:
+    container_name: reaction-parser-tests
+    image: docker.your-company.com/reaction-parser-tests:ci-${BUILD_NUMBER}
+    entrypoint: /bin/bash
+    environment:
+      - OSDR_LOG_FOLDER=/logs
+      - OSDR_LOG_LEVEL=${OSDR_LOG_LEVEL}
+      - OSDR_GRID_FS=mongodb://mongo:27017/osdr_dev
+      - OSDR_RABBIT_MQ=rabbitmq://guest:guest@rabbitmq:5672/osdr_test
+    command: ./wait-for-it.sh rabbitmq:5672 -t 30 -- ./wait-for-it.sh mongo:27017 -t 30 -- ./wait-for-it.sh reaction-parser-service:8083 -t 30 -- dotnet vstest ./Sds.ReactionFileParser.Tests.dll /logger:"trx;LogFileName=reaction-parser-tests-results-${BUILD_NUMBER}.xml" /ResultsDirectory:/results
+    volumes:
+      - ${OSDR_LOG_FOLDER}:/logs
+      - /results:/results
+    networks:
+      - reaction-parser-test
+
+networks:
+  reaction-parser-test:
