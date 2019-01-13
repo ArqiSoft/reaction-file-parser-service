@@ -17,5 +17,5 @@ mvn spring-boot:run
 
 ## Create and start docker image
 
-1. Use *docker-compose build* command to build the docker image.
-2. Use *docker-compose up -d* command to launch the docker image.
+1. Use `docker-compose build` command to build the docker image.
+2. Use `docker-compose up -d` command to launch the docker image.
