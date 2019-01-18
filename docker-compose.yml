@@ -4,7 +4,7 @@ services:
     reaction-parser-service:
         restart: always
         container_name: reaction-file-parser
-        image: docker.your-company.com/sds/reaction-file-parser:latest
+        image: leanda/reaction-file-parser:latest
         environment:
         - TZ=EST
         - OSDR_LOG_FOLDER=/logs
