@@ -13,6 +13,9 @@ services:
       - reaction-parser-test
 
   mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=leanda
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     image: mongo:3.6
     # ports:
     #   - "27017:27017"
@@ -22,14 +25,14 @@ services:
   reaction-parser-service:
     restart: always
     container_name: reaction-file-parser
-    image: docker.your-company.com/sds/reaction-file-parser:ci-${BUILD_NUMBER}
+    image: leanda/reaction-file-parser:${TAG_VERSION-latest}
     entrypoint: /bin/bash
     environment:
       - TZ=EST
       - OSDR_LOG_FOLDER=/logs
       - OSDR_TEMP_FILES_FOLDER=/temp
       - OSDR_RABBIT_MQ=rabbitmq://guest:guest@rabbitmq:5672/osdr_test
-      - OSDR_MONGO_DB=mongodb://mongo:27017/osdr_dev
+      - OSDR_MONGO_DB=mongodb://leanda:${MONGO_PASSWORD}@mongo:27017/leanda?authSource=admin
       - QUEUE_PREFETCH_SIZE=9
       - EXECUTOR_THREAD_COUNT=3
     command: ./wait-for-it.sh rabbitmq:5672 -t 30 -- ./wait-for-it.sh mongo:27017 -t 30 -- java -jar reaction-parser.jar
@@ -41,12 +44,12 @@ services:
 
   tests:
     container_name: reaction-parser-tests
-    image: docker.your-company.com/reaction-parser-tests:ci-${BUILD_NUMBER}
+    image: leanda/reaction-parser-tests:${TAG_VERSION-latest}
     entrypoint: /bin/bash
     environment:
       - OSDR_LOG_FOLDER=/logs
       - OSDR_LOG_LEVEL=${OSDR_LOG_LEVEL}
-      - OSDR_GRID_FS=mongodb://mongo:27017/osdr_dev
+      - OSDR_GRID_FS=mongodb://leanda:${MONGO_PASSWORD}@mongo:27017/leanda?authSource=admin
       - OSDR_RABBIT_MQ=rabbitmq://guest:guest@rabbitmq:5672/osdr_test
     command: ./wait-for-it.sh rabbitmq:5672 -t 30 -- ./wait-for-it.sh mongo:27017 -t 30 -- ./wait-for-it.sh reaction-parser-service:8083 -t 30 -- dotnet vstest ./Sds.ReactionFileParser.Tests.dll /logger:"trx;LogFileName=reaction-parser-tests-results-${BUILD_NUMBER}.xml" /ResultsDirectory:/results
     volumes:
