@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   rabbitmq:
-    image: docker.your-company.com/osdr-rabbitmq:3.6
+    image: leanda/rabbitmq
     hostname: "rabbitmq-test"
     environment:
       - RABBITMQ_DEFAULT_VHOST=osdr_test
