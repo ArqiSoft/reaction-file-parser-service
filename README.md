@@ -1,6 +1,6 @@
 # Reaction File Parser Service
 
-[![Build Status](https://travis-ci.org/ArqiSoft/reaction-file-parser-service.svg?branch=master)](https://travis-ci.org/ArqiSoft/reaction-file-parser-service)
+[![Build Status](https://travis-ci.com/ArqiSoft/reaction-file-parser-service.svg?branch=master)](https://travis-ci.com/ArqiSoft/reaction-file-parser-service)
 
 ## System Requirements
 
