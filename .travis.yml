@@ -16,9 +16,9 @@ env:
 
 script:
   - docker build -t $DOCKER_IMAGE:$DATE -t $DOCKER_IMAGE:latest .
-  - cd tests/Sds.ReactionFileParser.Tests && docker build -t $DOCKER_TESTS_IMAGE:latest -f Sds.ReactionFileParser.Tests/Dockerfile .
-  - yes | cp -rf Sds.ReactionFileParser.Tests/.env.travis-ci Sds.ReactionFileParser.Tests/.env
-  - cd Sds.ReactionFileParser.Tests && docker-compose up --abort-on-container-exit
+  # - cd tests/Sds.ReactionFileParser.Tests && docker build -t $DOCKER_TESTS_IMAGE:latest -f Sds.ReactionFileParser.Tests/Dockerfile .
+  # - yes | cp -rf Sds.ReactionFileParser.Tests/.env.travis-ci Sds.ReactionFileParser.Tests/.env
+  # - cd Sds.ReactionFileParser.Tests && docker-compose up --abort-on-container-exit
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
